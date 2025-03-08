@@ -1,4 +1,4 @@
-name: Zip Contents
+name: Zip Contents and Release
 
 on:
   workflow_call:
