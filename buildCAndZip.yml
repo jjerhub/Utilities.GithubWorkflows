@@ -2,13 +2,35 @@ on:
   release:
     types:
       - created
-      
+
+input:
+  slnName:
+    description: "The name of the solution file"
+    required: true
+  platform:
+    description: "The path to the image file to use to run the build process"
+    required: true
+  filePath:
+    description: "The path to the files to be included in the artifact"
+    required: true
+  artifactName:
+    description: "The name to give the produced artifact"
+    required: true
+  extraFileScript:
+    description: "Any pipe operations you want to perform on the contents of the directory located at 'filePath'. Note: must begin with a space and then a pipe character."
+    required: false
+  imageMods:
+    description: "A yaml file with operations to perform on the target platform before building"
+    required: false
+
 jobs:
   build:        
-    runs-on: mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-ltsc2019
+    runs-on: ${{ platform }}
+
+    ${{ imageMods }}
 
     env:
-      Solution_Name: 'TPBookmarks.sln'
+      Solution_Name: '${{ slnName }}.sln'
 
     steps:
       - name: Checkout
@@ -25,8 +47,8 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: FinalArtifacts
-          path: jjerhub.TPBookmarks\bin\Release | findstr '*.dll' 'Definition.json'
+          name: ${{ artifactName }}
+          path: ${{ filePath }}${{ extraFileScript }}
           
   zip:
     runs-on: ubuntu-latest
@@ -35,12 +57,12 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Zip
-        run: zip -r TPBookmarks.zip 
+        run: zip -r ${{ artifactName }}.zip 
         
       - name: Amend release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: TPBookmarks.zip
+          files: ${{ artifactName }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
