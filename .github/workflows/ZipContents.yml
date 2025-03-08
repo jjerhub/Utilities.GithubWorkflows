@@ -1,7 +1,14 @@
-inputs:
-  name:
-    description: "The name to give the zip file"
-    required: true
+name: Zip Contents
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        type: string
+        description: "The name to give the zip file"
+        required: true
+
+        
 jobs:
   build:
     runs-on: ubuntu-latest
