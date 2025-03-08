@@ -12,13 +12,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v2
-      
       - name: Zip
         run: zip -r ${{ name }}.zip . -x "*.git*"
-        
       - name: Amend release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
