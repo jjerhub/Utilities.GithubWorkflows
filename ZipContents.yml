@@ -14,12 +14,12 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Zip
-        run: zip -r {{$name}}.zip . -x "*.git*"
+        run: zip -r ${{ name }}.zip . -x "*.git*"
         
       - name: Amend release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: {{$name}}.zip
+          files: ${{ name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
