@@ -1,0 +1,64 @@
+on:
+  workflow_call:
+    inputs:
+      slnName:
+        type: string
+        description: 'The name of the solution file'
+        required: true
+      platform:
+        type: string
+        description: 'The path to the image file to use to run the build process'
+        required: true
+      filePath:
+        type: string
+        description: 'The path to the files to be included in the artifact'
+        required: true
+      artifactName:
+        type: string
+        description: 'The name to give the produced artifact'
+        required: true
+      extraFileScript:
+        type: string
+        description: 'Any pipe operations you want to perform on the contents of the directory located at ''filePath''. Note: must begin with a space and then a pipe character.'
+        required: false
+      imageMods:
+        type: string
+        description: 'A yaml file with operations to perform on the target platform before building'
+        required: false
+      imageModVars:
+        type: string
+        description: 'any variables to pass for the image modifiers'
+        required: false
+
+        
+jobs:
+  build:        
+    runs-on: ${{ platform }}
+    env:
+      Solution_Name: '${{ slnName }}.sln'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: image mods
+        if: ${{ imageMods != '' }}
+        uses: ${{ imageMods }}
+        with:
+          vars: ${{ imageModVars }}
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore the application
+        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=Release
+          
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ artifactName }}
+          path: ${{ filePath }}${{ extraFileScript }}
+          
+  zip:
+    uses: .github/workflows/ZipContents.yml@master
+    with:
+      name: ${{ artifactName }}
