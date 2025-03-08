@@ -1,7 +1,3 @@
-on:
-  release:
-    types:
-      - created
 inputs:
   name:
     description: "The name to give the zip file"
