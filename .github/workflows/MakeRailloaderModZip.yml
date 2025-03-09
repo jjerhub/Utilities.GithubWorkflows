@@ -49,7 +49,7 @@ jobs:
       - name: Copy files
         env:
           FROM_FILE_FILTER: ${{ inputs.from-file-filter }}
-          TO_FILE_FILTER: ${{ input.to-file-filter }}
+          TO_FILE_FILTER: ${{ inputs.to-file-filter }}
           MOD_NAME: ${{ inputs.mod-name }}
         run: |
           eval '${TO_FILE_FILTER:=Mods/'${MOD_NAME}'}'
