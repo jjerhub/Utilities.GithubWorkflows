@@ -5,7 +5,7 @@ on:
       mod-name:
         type: string
         description: 'The name of the mod'
-        required: true
+        default: test
       zip-file-name:
         type: string
         description: 'The name to give the zip file'
@@ -53,7 +53,7 @@ jobs:
           ZIP_FILE_NAME: ${{ inputs.zip-file-name }}
           MOD_NAME: ${{ inputs.mod-name }}
         run: |
-          eval '${TO_FILE_FILTER:="Mods/'${MOD_NAME}'"}'
+          eval '${''TO_FILE_FILTER:="Mods/'${MOD_NAME}'"}'
           echo ${TO_FILE_FILTER}
           eval '${ZIP_FILE_NAME:='${MOD_NAME}'}'
           eval 'mkdir -p '${TO_FILE_FILTER}
