@@ -54,8 +54,8 @@ jobs:
           MOD_NAME: ${{ inputs.mod-name }}
         run: |
           echo ${TO_FILE_FILTER}
-          echo '\${TO_FILE_FILTER:="Mods/'${MOD_NAME}'"}'
-          eval '\${TO_FILE_FILTER:="Mods/'${MOD_NAME}'"}'
+          echo '${TO_FILE_FILTER:="Mods/'${MOD_NAME}'"}'
+          eval '${TO_FILE_FILTER:=""Mods/'${MOD_NAME}'""}'
           eval '${ZIP_FILE_NAME:='${MOD_NAME}'}'
           eval 'mkdir -p '${TO_FILE_FILTER}
           eval 'cp '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
