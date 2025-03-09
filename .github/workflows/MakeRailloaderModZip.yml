@@ -13,7 +13,7 @@ on:
       from-file-filter:
         type: string
         description: 'The URI for files to copy to the new destination'
-        default: . -x "*.git*" "gitignore*"
+        default: '!(*.git*|gitignore*)'
       to-file-filter:
         type: string
         description: 'The URI for where to put the copied files'
@@ -31,7 +31,7 @@ on:
       from-file-filter:
         type: string
         description: 'The URI for files to copy to the new destination'
-        default: . -x "*.git*" "gitignore*"
+        default: '!(*.git*|gitignore*)'
       to-file-filter:
         type: string
         description: 'The URI for where to put the copied files'
