@@ -55,7 +55,7 @@ jobs:
           eval '${TO_FILE_FILTER:=Mods/'${MOD_NAME}'}'
           eval 'cp '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
       - name: Zip and release
-        uses: .github/workflows/ZipAndRelease.yml@v1.0.0
+        uses: jjerhub/Utilities.GithubWorkflows/.github/workflows/ZipAndRelease.yml@v1.0.0
         with:
           do-checkout: false
           zip-file-name: ${{ inputs.zip-file-name || inputs.mod-name }}
