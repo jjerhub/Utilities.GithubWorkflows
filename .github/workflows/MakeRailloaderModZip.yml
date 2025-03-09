@@ -46,17 +46,21 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
-      - name: Copy files
+      - name: Copy and zip
         env:
           FROM_FILE_FILTER: ${{ inputs.from-file-filter }}
           TO_FILE_FILTER: ${{ inputs.to-file-filter }}
+          ZIP_FILE_NAME: ${{ inputs.zip-file-name }}
           MOD_NAME: ${{ inputs.mod-name }}
         run: |
           eval '${TO_FILE_FILTER:=Mods/'${MOD_NAME}'}'
+          eval '${ZIP_FILE_NAME:='${MOD_NAME}'}'
           eval 'cp '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
-      - name: Zip and release
-        uses: jjerhub/Utilities.GithubWorkflows/.github/workflows/ZipAndRelease.yml@v1.0.0
+          eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
+      - name: Amend release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          do-checkout: false
-          zip-file-name: ${{ inputs.zip-file-name || inputs.mod-name }}
-          zip-file-filter: Mods
+          files: ${{ inputs.zip-file-name || inputs.mod-name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
