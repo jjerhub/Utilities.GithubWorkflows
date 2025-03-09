@@ -2,6 +2,10 @@ name: Zip and Release
 on:
   workflow_dispatch:
     inputs:
+      do-checkout:
+        type: boolean
+        description: 'Whether or not we need to do the checkout command'
+        default: true
       zip-file-name:
         type: string
         description: 'The name to give the zip file'
@@ -12,6 +16,10 @@ on:
         default: . -x "*.git*" "gitignore*"
   workflow_call:
     inputs:
+      do-checkout:
+        type: boolean
+        description: 'Whether or not we need to do the checkout command'
+        default: true
       zip-file-name:
         type: string
         description: 'The name to give the zip file'
@@ -29,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        if: ${{ inputs.do-checkout }}
       - name: Zip
         env:
           ZIP_FILE_NAME: ${{ inputs.zip-file-name }}
