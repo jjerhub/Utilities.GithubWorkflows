@@ -1,0 +1,59 @@
+name: Make Railloader mod zip
+on:
+  workflow_dispatch:
+    inputs:
+      mod-name:
+        type: string
+        description: 'The name of the mod'
+        required: true
+      zip-file-name:
+        type: string
+        description: 'The name to give the zip file'
+        default: ${{ inputs.mod-name }}
+      from-file-filter:
+        type: string
+        description: 'The URI for files to copy to the new destination'
+        default: . -x "*.git*" "gitignore*"
+      to-file-filter:
+        type: string
+        description: 'The URI for where to put the copied files'
+        default: Mods/${{ inputs.mod-name }}/
+  workflow_call:
+    inputs:
+      mod-name:
+        type: string
+        description: 'The name of the mod'
+        required: true
+      zip-file-name:
+        type: string
+        description: 'The name to give the zip file'
+        default: ${{ inputs.mod-name }}
+      from-file-filter:
+        type: string
+        description: 'The URI for files to copy to the new destination'
+        default: . -x "*.git*" "gitignore*"
+      to-file-filter:
+        type: string
+        description: 'The URI for where to put the copied files'
+        default: Mods/${{ inputs.mod-name }}/
+
+permissions:
+  contents:
+    write
+jobs:
+  do_copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Copy files
+        env:
+          FROM_FILE_FILTER: ${{ inputs.from-file-filter }}
+          TO_FILE_FILTER: ${{ input.to-file-filter }}
+        run: eval 'cp '${FROM_FILE_FILTER}' '$TO_FILE_FILTER
+      - name: Zip and release
+        uses: .github/workflows/ZipAndRelease.yml@v1.0.0
+        with:
+          do-checkout: false
+          zip-file-name: ${{ inputs.zip-file-name }}
+          zip-file-filter: Mods
