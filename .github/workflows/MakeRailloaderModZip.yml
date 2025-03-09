@@ -13,7 +13,7 @@ on:
       from-file-filter:
         type: string
         description: 'The URI for files to copy to the new destination'
-        default: '*.git*|gitignore*'
+        default: '--exclude "*.git*" --exclude "gitignore*"'
       to-file-filter:
         type: string
         description: 'The URI for where to put the copied files'
@@ -60,7 +60,8 @@ jobs:
             TO_FILE_FILTER='Mods/'${MOD_NAME}
           fi
           set -x
-          eval 'rsync -r * '${TO_FILE_FILTER}' --exclude "'${FROM_FILE_FILTER}'"'
+          eval 'mkdir -p '${TO_FILE_FILTER}
+          eval 'rsync -rq * '${TO_FILE_FILTER}' '${FROM_FILE_FILTER}
           eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
           set +x
       - name: Amend release
