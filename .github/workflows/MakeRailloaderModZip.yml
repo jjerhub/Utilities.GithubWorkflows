@@ -53,8 +53,12 @@ jobs:
           ZIP_FILE_NAME: ${{ inputs.zip-file-name }}
           MOD_NAME: ${{ inputs.mod-name }}
         run: |
-          if [ -z "${ZIP_FILE_NAME}" ]; then ZIP_FILE_NAME="${MOD_NAME}" fi
-          if [ -z "${TO_FILE_FILTER}" ]; then TO_FILE_FILTER='Mods/'${MOD_NAME} fi
+          if [ -z "${ZIP_FILE_NAME}" ]; then 
+            ZIP_FILE_NAME="${MOD_NAME}" 
+          fi
+          if [ -z "${TO_FILE_FILTER}" ]; then 
+            TO_FILE_FILTER='Mods/'${MOD_NAME}
+          fi
           eval 'mkdir -p '${TO_FILE_FILTER}
           eval 'cp '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
           eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
