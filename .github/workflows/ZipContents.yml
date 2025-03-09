@@ -36,6 +36,7 @@ jobs:
         run: zip -r $ZIP_FILE_NAME.zip $ZIP_FILE_FILTER
       - name: Amend release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ inputs.zip-file-name }}.zip
         env:
