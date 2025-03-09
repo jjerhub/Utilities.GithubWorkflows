@@ -59,11 +59,8 @@ jobs:
           if [ -z "${TO_FILE_FILTER}" ]; then 
             TO_FILE_FILTER='Mods/'${MOD_NAME}
           fi
-          set -x
-          eval 'mkdir -p '${TO_FILE_FILTER}
           eval 'rsync -a * '${TO_FILE_FILTER}' --exclude "'${FROM_FILE_FILTER}'"'
           eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
-          set +x
       - name: Amend release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
