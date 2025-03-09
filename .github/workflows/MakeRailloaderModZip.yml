@@ -55,6 +55,7 @@ jobs:
         run: |
           eval '${TO_FILE_FILTER:=Mods/'${MOD_NAME}'}'
           eval '${ZIP_FILE_NAME:='${MOD_NAME}'}'
+          eval 'mkdir -p '${TO_FILE_FILTER}
           eval 'cp '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
           eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
       - name: Amend release
