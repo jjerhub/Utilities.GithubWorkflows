@@ -61,7 +61,7 @@ jobs:
           fi
           set -x
           eval 'mkdir -p '${TO_FILE_FILTER}
-          eval 'cp -r * '${TO_FILE_FILTER}' --exclude "'${FROM_FILE_FILTER}'"'
+          eval 'rsync * '${TO_FILE_FILTER}' --exclude "'${FROM_FILE_FILTER}'"'
           eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
           set +x
       - name: Amend release
