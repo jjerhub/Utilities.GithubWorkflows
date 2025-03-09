@@ -1,5 +1,15 @@
 name: Zip and Release
 on:
+  workflow_dispatch:
+    inputs:
+      zip-file-name:
+        type: string
+        description: 'The name to give the zip file'
+        required: true
+      zip-file-filter:
+        type: string
+        description: 'The URI for files to add to the zip'
+        default: . -x '*.git*' '*.gitignore'
   workflow_call:
     inputs:
       zip-file-name:
@@ -9,11 +19,7 @@ on:
       zip-file-filter:
         type: string
         description: 'The URI for files to add to the zip'
-        required: true
-    secrets:
-      access-token:
-        description: 'the access token used to commit to the release repo'
-        required: true
+        default: . -x '*.git*' '*.gitignore'
 
 permissions:
   contents:
@@ -34,4 +40,4 @@ jobs:
         with:
           files: ${{ inputs.zip-file-name }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
