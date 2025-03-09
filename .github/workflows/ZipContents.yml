@@ -9,7 +9,7 @@ on:
       zip-file-filter:
         type: string
         description: 'The URI for files to add to the zip'
-        default: . -x '*.git*' 'gitignore*'
+        default: . -x "*.git*" "gitignore*"
   workflow_call:
     inputs:
       zip-file-name:
@@ -19,7 +19,7 @@ on:
       zip-file-filter:
         type: string
         description: 'The URI for files to add to the zip'
-        default: . -x '*.git*' 'gitignore*'
+        default: . -x "*.git*" "gitignore*"
 
 permissions:
   contents:
