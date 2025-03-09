@@ -61,7 +61,7 @@ jobs:
           fi
           set -x
           eval 'mkdir -p '${TO_FILE_FILTER}
-          eval 'cp '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
+          eval 'cp -r '${FROM_FILE_FILTER}' '${TO_FILE_FILTER}
           eval 'zip -r '${ZIP_FILE_NAME}'.zip Mods'
           set +x
       - name: Amend release
